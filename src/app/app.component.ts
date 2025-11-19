@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { authStore } from './store/auth.store';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'shop';
+  isAuthenticated = authStore.isAuthenticated;
+  title = 'Mi Tienda';
 }

@@ -1,0 +1,51 @@
+<!-- Toolbar Fijo -->
+<div class="toolbar" role="banner">
+  <img 
+    width="40" 
+    alt="Logo Tienda Eddy" 
+    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xOCw2SDE2VjVBMzMsMywwLDAsMCwxMywySDExQTMsMywwLDAsMCw4LDVWNkg2QTIuMDYsMi4wNiwwLDAsMCw0LDhWMjBhMi4wNiwyLjA2LDAsMCwwLDIsMkgxOGEyLjA2LDIuMDYsMCwwLDAsMi0yVjhBMi4wNiwyLjA2LDAsMCwwLDE4LDZNMTAsNWEzLDMsMCwwLDAsNiwwWk0xOCwyMEg2VjhIMThaIi8+PC9zdmc+"
+  />
+  <span class="welcome-text">Welcome to Eddy's online store</span>
+  
+  <div class="spacer"></div>
+
+  <!-- User greeting -->
+  <div *ngIf="isAuthenticated && username" class="user-greeting mr-4">
+    Hello, {{ username }}!
+  </div>
+  
+  <!-- Cart icon -->
+  <button 
+    (click)="goToCart()" 
+    class="cart-button"
+    [attr.aria-label]="'Shopping cart with ' + cartCount() + ' items'">
+    
+    <div class="cart-icon-container transition-all duration-150 active:scale-95">
+      <img 
+        src="assets/shopping-cart-icon.png" 
+        alt="Shopping cart"
+        class="cart-icon-image"
+        onerror="this.style.display='none'">
+    </div>
+    
+    <div *ngIf="cartCount() > 0" class="cart-badge">
+      {{ cartCount() > 99 ? '99+' : cartCount() }}
+    </div>
+
+    <div class="cart-tooltip">
+      View cart ({{ cartCount() }} items)
+    </div>
+  </button>
+
+  <!-- Logout button -->
+  <button *ngIf="isAuthenticated" 
+          (click)="logout()" 
+          class="logout-btn ml-4">
+          Logout
+  </button>
+</div>
+
+<!-- Main Content con margen superior -->
+<div class="content" role="main">
+  <router-outlet></router-outlet>
+</div>

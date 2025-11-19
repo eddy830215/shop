@@ -1,0 +1,179 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Header y Filtros -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Product catalog</h1>
+    
+    <!-- Barra de búsqueda MEJORADA -->
+    <div class="mb-6">
+      <form [formGroup]="searchForm" class="max-w-md relative">
+        <div class="relative">
+          <input
+            type="text"
+            formControlName="search"
+            placeholder="Search products by name, description or category..."
+            class="input-field w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+            appClickLogger="Búsqueda de productos">
+          
+          <!-- Icono de búsqueda -->
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+
+          <!-- Botón para limpiar búsqueda -->
+          <button 
+            *ngIf="hasActiveSearch()"
+            type="button"
+            (click)="clearSearch()"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Contador de resultados -->
+        <div *ngIf="hasActiveSearch()" class="mt-2 text-sm text-gray-600">
+          Found {{ searchResultsCount() }} product{{ searchResultsCount() !== 1 ? 's' : '' }} for "{{ searchTerm() }}"
+        </div>
+      </form>
+    </div>
+
+    <!-- Filtros de categoría -->
+    <div class="flex flex-wrap gap-2 mb-6">
+      <button
+        *ngFor="let category of categories()"
+        (click)="onCategoryChange(category)"
+        [class]="selectedCategory() === category 
+          ? 'bg-primary-500 text-white px-4 py-2 rounded-full border border-primary-500 transition-colors shadow-sm' 
+          : 'px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors bg-white'"
+        [attr.data-category]="category">
+        {{ category === 'all' ? 'All' : (category | titlecase) }}
+      </button>
+    </div>
+
+    <!-- Indicador de filtros activos -->
+    <div *ngIf="activeFilters().length > 0" 
+         class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-sm text-blue-800">
+          <span>Active filters:</span>
+          <span *ngFor="let filter of activeFilters()" 
+                class="bg-blue-100 px-2 py-1 rounded-full text-xs font-medium">
+            {{ filter }}
+          </span>
+        </div>
+        <button 
+          (click)="clearAllFilters()"
+          class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors">
+          Clear all
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading()" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error() && !loading()" class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+    <p class="text-red-800">{{ error() }}</p>
+    <button 
+      (click)="loadProducts()"
+      class="btn-primary mt-2">
+      Try again
+    </button>
+  </div>
+
+  <!-- Grid de productos -->
+  <div *ngIf="!loading() && !error()">
+    <!-- Mensaje cuando no hay resultados -->
+    <div *ngIf="filteredProducts().length === 0 && (selectedCategory() !== 'all' || hasActiveSearch())" 
+         class="text-center py-12 bg-gray-50 rounded-lg">
+      <div class="max-w-md mx-auto">
+        <svg class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+        <p class="text-gray-500 mb-4">
+          No products match your search criteria. Try adjusting your filters or search term.
+        </p>
+        <button 
+          (click)="clearAllFilters()"
+          class="btn-primary">
+          Show all products
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid de productos -->
+    <div *ngIf="filteredProducts().length > 0" 
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div 
+        *ngFor="let product of filteredProducts(); trackBy: trackByProductId" 
+        class="card fade-in cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 bg-white rounded-lg border border-gray-200 overflow-hidden"
+        (click)="viewProductDetails(product.id)">
+        <div class="p-4">
+          <!-- Imagen del producto -->
+          <div class="aspect-w-1 aspect-h-1 mb-4">
+            <img 
+              [src]="product.image" 
+              [alt]="product.title"
+              class="w-full h-48 object-contain bg-white p-4 rounded-lg">
+          </div>
+
+          <!-- Información del producto -->
+          <h3 class="font-semibold text-lg mb-2 line-clamp-2 text-gray-900">
+            {{ product.title }}
+          </h3>
+          
+          <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+            {{ product.description }}
+          </p>
+
+          <!-- Categoría -->
+          <div class="mb-3">
+            <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+              {{ product.category | titlecase }}
+            </span>
+          </div>
+
+          <!-- Rating -->
+          <div class="flex items-center mb-3">
+            <div class="flex text-yellow-400">
+              <span *ngFor="let star of [1,2,3,4,5]; let i = index" 
+                    [class]="i < product.rating.rate ? 'text-yellow-400' : 'text-gray-300'">
+                ★
+              </span>
+            </div>
+            <span class="ml-2 text-sm text-gray-600">
+              ({{ product.rating.count }})
+            </span>
+          </div>
+
+          <!-- Precio y acción -->
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-bold text-primary-600">
+              {{ product.price | currency }}
+            </span>
+            <button
+              (click)="addToCart(product); $event.stopPropagation()"
+              appClickLogger="Add to cart"
+              class="btn-primary bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sin productos cuando no hay filtros -->
+    <div *ngIf="filteredProducts().length === 0 && selectedCategory() === 'all' && !hasActiveSearch()" 
+         class="text-center py-12">
+      <p class="text-gray-500 text-lg">No products available</p>
+    </div>
+  </div>
+</div>

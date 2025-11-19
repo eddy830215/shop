@@ -1,0 +1,70 @@
+:host {
+    display: block;
+    min-height: 70vh;
+  }
+  
+  // Animación de entrada
+  .success-container {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  // Efecto de pulso para el ícono de éxito
+  .success-icon {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  // Estilos para la información del pedido
+  .order-info {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+    
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      border-color: #3b82f6;
+    }
+  }
+  
+  // Mejoras responsive
+  @media (max-width: 640px) {
+    .success-actions {
+      flex-direction: column;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+  
+  // Efectos hover para botones
+  .action-button {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }

@@ -1,0 +1,66 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+       <div class="logo-circle mx-auto flex justify-center items-center">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+       </div>
+      </div>
+      <h3 class="login-title">Login</h3>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">User</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          placeholder="Enter your user"
+          [class.is-invalid]="username?.invalid && username?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="username?.invalid && username?.touched">
+          The user is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          placeholder="Enter your password"
+          [class.is-invalid]="password?.invalid && password?.touched"
+        >
+        <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
+          <div *ngIf="password?.errors?.['required']">Password is required</div>
+          <div *ngIf="password?.errors?.['minlength']">
+            The password must be at least 6 characters long
+          </div>
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">Login</span>
+        <span *ngIf="isLoading">Loading...</span>
+      </button>
+    </form>
+
+    <div class="register-link">
+      <p>¿You don't have an account? <a routerLink="/auth/register">Register</a></p>
+    </div>
+  </div>
+</div>

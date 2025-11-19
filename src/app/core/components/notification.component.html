@@ -1,0 +1,33 @@
+<!-- notification.component.html -->
+<div class="notifications-container">
+  <div 
+    *ngFor="let notification of notifications()" 
+    class="notification"
+    [class.notification-success]="notification.type === 'success'"
+    [class.notification-error]="notification.type === 'error'"
+    [class.notification-warning]="notification.type === 'warning'"
+    [class.notification-info]="notification.type === 'info'"
+    (click)="removeNotification(notification.id)">
+    
+    <div class="notification-content">
+      <div class="notification-icon">
+        <span *ngIf="notification.type === 'success'">✓</span>
+        <span *ngIf="notification.type === 'error'">✕</span>
+        <span *ngIf="notification.type === 'warning'">⚠</span>
+        <span *ngIf="notification.type === 'info'">ℹ</span>
+      </div>
+      
+      <div class="notification-text">
+        <div class="notification-title">{{ notification.title }}</div>
+        <div class="notification-message">{{ notification.message }}</div>
+      </div>
+      
+      <button 
+        class="close-button" 
+        (click)="removeNotification(notification.id); $event.stopPropagation()"
+        aria-label="Close notification">
+        &times;
+      </button>
+    </div>
+  </div>
+</div>

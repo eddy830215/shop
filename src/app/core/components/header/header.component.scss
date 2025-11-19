@@ -1,0 +1,352 @@
+:host {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  // Efectos de transición suaves para el header
+  .header {
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.95);
+    
+    @media (prefers-reduced-motion: no-preference) {
+      transition: all 0.3s ease;
+    }
+  }
+  
+  // Efecto de scroll (header que se hace más pequeño al hacer scroll)
+  .header.scrolled {
+    height: 4rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    
+    .logo {
+      transform: scale(0.9);
+    }
+  }
+  
+  // Logo con efecto hover
+  .logo {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      transform: scale(1.05);
+      
+      &::after {
+        width: 100%;
+      }
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+      transition: width 0.3s ease;
+    }
+  }
+  
+  // Navegación con efectos
+  .nav-link {
+    position: relative;
+    padding: 0.5rem 0;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    &:hover::after,
+    &.active::after {
+      width: 100%;
+    }
+    
+    // Efecto de onda al hacer clic
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  // Botón del carrito con animación
+  .cart-button {
+    position: relative;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      
+      .cart-icon {
+        transform: scale(1.1);
+      }
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .cart-icon {
+    transition: transform 0.3s ease;
+  }
+  
+  .cart-badge {
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+    
+    // Animación cuando se agrega un producto
+    &.bump {
+      animation: bump 0.3s ease;
+    }
+  }
+  
+  // Dropdown de usuario
+  .user-dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      right: 12px;
+      width: 12px;
+      height: 12px;
+      background: white;
+      transform: rotate(45deg);
+      border-top: 1px solid #e5e7eb;
+      border-left: 1px solid #e5e7eb;
+    }
+  }
+  
+  // Botones de autenticación
+  .auth-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    &:hover::before {
+      left: 100%;
+    }
+    
+    // Efecto específico para el botón primario
+    &.primary {
+      box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+      
+      &:hover {
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+      }
+    }
+    
+    // Efecto específico para el botón secundario
+    &.secondary {
+      &:hover {
+        background-color: #f9fafb;
+        border-color: #d1d5db;
+      }
+    }
+  }
+  
+  // Menú móvil (para futura implementación)
+  .mobile-menu-button {
+    display: none;
+    
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+  
+  .mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    
+    &.open {
+      max-height: 300px;
+    }
+  }
+  
+  // Animaciones keyframes
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+  }
+  
+  @keyframes bump {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  // Efectos de focus mejorados para accesibilidad
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  
+  // Mejoras de rendimiento para animaciones
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  // Modo oscuro (para futura implementación)
+  @media (prefers-color-scheme: dark) {
+    :host {
+      .header {
+        background-color: rgba(17, 24, 39, 0.95);
+        border-bottom-color: #374151;
+      }
+      
+      .user-dropdown {
+        background-color: #1f2937;
+        border-color: #374151;
+        
+        &::before {
+          background: #1f2937;
+          border-color: #374151;
+        }
+      }
+    }
+  }
+  
+  // Estados de carga
+  .loading {
+    position: relative;
+    color: transparent;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      border: 2px solid transparent;
+      border-top: 2px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  // Efectos de transición para elementos que usan la directiva ClickLogger
+  .click-logger-active {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: inherit;
+      animation: fadeOut 0.6s ease;
+    }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  // Responsive improvements
+  @media (max-width: 640px) {
+    .header-content {
+      padding: 0 1rem;
+    }
+    
+    .auth-buttons {
+      flex-direction: column;
+      gap: 0.5rem;
+      
+      .auth-button {
+        min-width: 100px;
+        text-align: center;
+      }
+    }
+    
+    .cart-badge {
+      font-size: 0.625rem;
+      min-width: 16px;
+      height: 16px;
+    }
+  }
+  
+  // Estilos para cuando hay muchos items en el carrito
+  .cart-badge.high-count {
+    animation: pulse 1s infinite;
+    background-color: #ef4444;
+    
+    &::after {
+      content: '!';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }

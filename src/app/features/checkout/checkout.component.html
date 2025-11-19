@@ -1,0 +1,376 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header and progress -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Complete Purchase</h1>
+      
+      <!-- Progress bar -->
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center space-x-4">
+          <div *ngFor="let step of [1, 2, 3]; trackBy: trackByIndex" class="flex items-center">
+            <div [class]="'w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ' + getStepClass(step)">
+              <svg *ngIf="step < activeStep()" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span *ngIf="step >= activeStep()">{{ step }}</span>
+            </div>
+            <div *ngIf="step < 3" class="w-16 h-1 mx-4" [class]="step < activeStep() ? 'bg-green-500' : 'bg-gray-300'"></div>
+          </div>
+        </div>
+        
+        <div class="text-sm text-gray-600">
+          Step {{ activeStep() }} of 3
+        </div>
+      </div>
+
+      <!-- Step labels -->
+      <div class="flex justify-between text-sm font-medium text-gray-600 mb-8">
+        <span [class]="activeStep() >= 1 ? 'text-primary-600' : ''">Shipment</span>
+        <span [class]="activeStep() >= 2 ? 'text-primary-600' : ''">Pay</span>
+        <span [class]="activeStep() >= 3 ? 'text-primary-600' : ''">Confirmation</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main form -->
+      <div class="lg:col-span-2">
+        <!-- Step 1: Shipping Information -->
+        <div *ngIf="activeStep() === 1" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-6">Shipping Information</h2>
+          
+          <form [formGroup]="shippingForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Name *
+                </label>
+                <input
+                  type="text"
+                  formControlName="firstName"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.firstName.invalid && shippingControls.firstName.touched"
+                  placeholder="Your name">
+                <div *ngIf="shippingControls.firstName.invalid && shippingControls.firstName.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.firstName.errors?.['required']">Name is required</div>
+                  <div *ngIf="shippingControls.firstName.errors?.['minlength']">Minimum 2 characters</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Last name *
+                </label>
+                <input
+                  type="text"
+                  formControlName="lastName"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.lastName.invalid && shippingControls.lastName.touched"
+                  placeholder="Your lastname">
+                <div *ngIf="shippingControls.lastName.invalid && shippingControls.lastName.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.lastName.errors?.['required']">Last name is required</div>
+                  <div *ngIf="shippingControls.lastName.errors?.['minlength']">Minimum 2 characters</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  formControlName="email"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.email.invalid && shippingControls.email.touched"
+                  placeholder="tu@email.com">
+                <div *ngIf="shippingControls.email.invalid && shippingControls.email.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.email.errors?.['required']">Email is required</div>
+                  <div *ngIf="shippingControls.email.errors?.['email']">Invalid email format</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Phone *
+                </label>
+                <input
+                  type="tel"
+                  formControlName="phone"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.phone.invalid && shippingControls.phone.touched"
+                  placeholder="+1 234 567 890">
+                <div *ngIf="shippingControls.phone.invalid && shippingControls.phone.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.phone.errors?.['required']">A phone number is required</div>
+                  <div *ngIf="shippingControls.phone.errors?.['pattern']">Invalid phone number format</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Address *
+              </label>
+              <input
+                type="text"
+                formControlName="address"
+                class="input-field"
+                [class.border-red-300]="shippingControls.address.invalid && shippingControls.address.touched"
+                placeholder="Full address">
+              <div *ngIf="shippingControls.address.invalid && shippingControls.address.touched" class="text-red-600 text-sm mt-1">
+                <div *ngIf="shippingControls.address.errors?.['required']">The address is required</div>
+                <div *ngIf="shippingControls.address.errors?.['minlength']">Minimum 5 characters</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  City *
+                </label>
+                <input
+                  type="text"
+                  formControlName="city"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.city.invalid && shippingControls.city.touched"
+                  placeholder="City">
+                <div *ngIf="shippingControls.city.invalid && shippingControls.city.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.city.errors?.['required']">The city is required</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Zip code *
+                </label>
+                <input
+                  type="text"
+                  formControlName="zipCode"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.zipCode.invalid && shippingControls.zipCode.touched"
+                  placeholder="12345">
+                <div *ngIf="shippingControls.zipCode.invalid && shippingControls.zipCode.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.zipCode.errors?.['required']">The postal code is required</div>
+                  <div *ngIf="shippingControls.zipCode.errors?.['pattern']">Invalid format (5 digits)</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Country *
+                </label>
+                <select
+                  formControlName="country"
+                  class="input-field"
+                  [class.border-red-300]="shippingControls.country.invalid && shippingControls.country.touched">
+                  <option value="">Select country</option>
+                  <option value="ES">España</option>
+                  <option value="US">Estados Unidos</option>
+                  <option value="MX">México</option>
+                  <option value="AR">Argentina</option>
+                  <option value="CO">Colombia</option>
+                </select>
+                <div *ngIf="shippingControls.country.invalid && shippingControls.country.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="shippingControls.country.errors?.['required']">The country is required</div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 2: Payment Information -->
+        <div *ngIf="activeStep() === 2" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-6">Payment Information</h2>
+          
+          <form [formGroup]="paymentForm" class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Card number *
+              </label>
+              <input
+                type="text"
+                formControlName="cardNumber"
+                class="input-field"
+                [class.border-red-300]="paymentControls.cardNumber.invalid && paymentControls.cardNumber.touched"
+                placeholder="1234 5678 9012 3456"
+                maxlength="16">
+              <div *ngIf="paymentControls.cardNumber.invalid && paymentControls.cardNumber.touched" class="text-red-600 text-sm mt-1">
+                <div *ngIf="paymentControls.cardNumber.errors?.['required']">The card number is required</div>
+                <div *ngIf="paymentControls.cardNumber.errors?.['pattern']">Invalid format (16 digits)</div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Name on Card *
+              </label>
+              <input
+                type="text"
+                formControlName="cardHolder"
+                class="input-field"
+                [class.border-red-300]="paymentControls.cardHolder.invalid && paymentControls.cardHolder.touched"
+                placeholder="As shown on the card">
+              <div *ngIf="paymentControls.cardHolder.invalid && paymentControls.cardHolder.touched" class="text-red-600 text-sm mt-1">
+                <div *ngIf="paymentControls.cardHolder.errors?.['required']">Name is required</div>
+                <div *ngIf="paymentControls.cardHolder.errors?.['minlength']">Minimum 3 characters</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Expiration date *
+                </label>
+                <input
+                  type="text"
+                  formControlName="expiryDate"
+                  class="input-field"
+                  [class.border-red-300]="paymentControls.expiryDate.invalid && paymentControls.expiryDate.touched"
+                  placeholder="MM/AA"
+                  maxlength="5">
+                <div *ngIf="paymentControls.expiryDate.invalid && paymentControls.expiryDate.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="paymentControls.expiryDate.errors?.['required']">The date is required</div>
+                  <div *ngIf="paymentControls.expiryDate.errors?.['pattern']">Invalid format (MM/YY)</div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  CVV *
+                </label>
+                <input
+                  type="text"
+                  formControlName="cvv"
+                  class="input-field"
+                  [class.border-red-300]="paymentControls.cvv.invalid && paymentControls.cvv.touched"
+                  placeholder="123"
+                  maxlength="4">
+                <div *ngIf="paymentControls.cvv.invalid && paymentControls.cvv.touched" class="text-red-600 text-sm mt-1">
+                  <div *ngIf="paymentControls.cvv.errors?.['required']">CVV is required</div>
+                  <div *ngIf="paymentControls.cvv.errors?.['pattern']">Invalid format (3-4 digits)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security information -->
+            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div class="flex items-start space-x-3">
+                <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <div class="text-sm text-blue-700">
+                  <p class="font-medium">Secure payment</p>
+                  <p class="mt-1">Your payment information is encrypted and protected.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 3: Processing payment -->
+        <div *ngIf="activeStep() === 3" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
+          <div class="py-12">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-600 mx-auto mb-6"></div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Processing your payment</h2>
+            <p class="text-gray-600">Please wait, we are processing your transaction...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order summary -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">Order Summary</h3>
+
+          <!-- Product list -->
+          <div class="space-y-4 mb-6 max-h-80 overflow-y-auto">
+            <div *ngFor="let item of cart(); trackBy: trackByProductId" class="flex items-center space-x-3">
+              <img
+                [src]="item.product.image"
+                [alt]="item.product.title"
+                class="w-12 h-12 object-contain rounded border border-gray-200">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  {{ item.product.title | shortDescription:25 }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  Amount: {{ item.quantity }}
+                </p>
+              </div>
+              <div class="text-sm font-semibold text-gray-900">
+                {{ getItemSubtotal(item) | currencyFormat }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Totals -->
+          <div class="space-y-3 border-t border-gray-200 pt-4">
+            <div class="flex justify-between text-base">
+              <span class="text-gray-600">Subtotal</span>
+              <span class="text-gray-900 font-medium">{{ cartTotal() | currencyFormat }}</span>
+            </div>
+            <div class="flex justify-between text-base">
+              <span class="text-gray-600">Shipment</span>
+              <span class="text-green-600 font-medium">Free</span>
+            </div>
+            <div class="flex justify-between text-base">
+              <span class="text-gray-600">Taxes</span>
+              <span class="text-gray-900 font-medium">{{ (cartTotal() * 0.21) | currencyFormat }}</span>
+            </div>
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex justify-between text-xl font-bold">
+                <span class="text-gray-900">Total</span>
+                <span class="text-primary-600">{{ (cartTotal() * 1.21) | currencyFormat }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation buttons -->
+          <div class="mt-6 space-y-3">
+            <button
+              *ngIf="activeStep() === 1"
+              (click)="nextStep()"
+              [disabled]="!shippingForm.valid"
+              class="w-full btn-primary py-3 text-lg font-semibold transition-all duration-150 active:scale-95"
+              appClickLogger="Continue to Payment">
+              Continue to Payment
+            </button>
+
+            <div *ngIf="activeStep() === 2" class="space-y-3">
+              <button
+                (click)="previousStep()"
+                class="w-full btn-secondary py-3 text-lg font-semibold transition-all duration-150 active:scale-95"
+                appClickLogger="Back to Shipping">
+                Back to Shipping
+              </button>
+              <button
+                (click)="nextStep()"
+                [disabled]="!paymentForm.valid || processing()"
+                class="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-lg flex items-center justify-center transition-all duration-150 active:scale-95"
+                appClickLogger="Make payment">
+                <svg *ngIf="processing()" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span *ngIf="processing()">Processing...</span>
+                <span *ngIf="!processing()" class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Make payment
+                </span>
+              </button>
+            </div>
+
+            <button
+              (click)="backToCart()"
+              class="w-full text-gray-600 hover:text-gray-700 py-3 text-lg font-semibold transition-colors"
+              appClickLogger="Return to Cart from checkout">
+              ← Back to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
