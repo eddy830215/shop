@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(modifiedReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Ha ocurrido un error inesperado';
+        let errorMessage = 'An unexpected error has occurred';
         
         if (error.error instanceof ErrorEvent) {
           // Error del lado del cliente
@@ -39,20 +39,20 @@ export class AuthInterceptor implements HttpInterceptor {
           // Error del lado del servidor
           switch (error.status) {
             case 400:
-              errorMessage = 'Solicitud incorrecta';
+              errorMessage = 'Bad Request';
               break;
             case 401:
-              errorMessage = 'No autorizado. Por favor, inicie sesión.';
+              errorMessage = 'Unauthorized. Please login.';
               authStore.logout();
               break;
             case 403:
-              errorMessage = 'Acceso denegado';
+              errorMessage = 'Access denied';
               break;
             case 404:
-              errorMessage = 'Recurso no encontrado';
+              errorMessage = 'Resource not found';
               break;
             case 500:
-              errorMessage = 'Error interno del servidor';
+              errorMessage = 'Internal Server Erro';
               break;
             default:
               errorMessage = `Error ${error.status}: ${error.message}`;

@@ -10,15 +10,15 @@
     <div class="py-8 px-6 sm:px-10">
       <!-- Encabezado -->
       <div class="form-header">
-        <h2 class="text-3xl font-bold mb-2">Crear Cuenta</h2>
-        <p class="text-gray-600">Únete a nuestra comunidad</p>
+        <h2 class="text-3xl font-bold mb-2">Create Account</h2>
+        <p class="text-gray-600">Join our community</p>
       </div>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
         <!-- Campo Username -->
         <div class="form-group">
           <label for="username" class="form-label">
-            Nombre de Usuario
+            User name
           </label>
           <div class="relative">
             <input
@@ -27,8 +27,8 @@
               type="text"
               formControlName="username"
               [class]="getInputClasses(username)"
-              placeholder="tu_usuario"
-              appClickLogger="Campo username registro">
+              placeholder="your_username"
+              appClickLogger="Username field for registration">
             
             <!-- Icono de validación -->
             <div *ngIf="usernameValid()" class="validation-icon valid">
@@ -63,7 +63,7 @@
         <!-- Campo Email -->
         <div class="form-group">
           <label for="email" class="form-label">
-            Correo Electrónico
+            Email
           </label>
           <div class="relative">
             <input
@@ -72,8 +72,8 @@
               type="email"
               formControlName="email"
               [class]="getInputClasses(email)"
-              placeholder="usuario@ejemplo.com"
-              appClickLogger="Campo email registro">
+              placeholder="user@example.com"
+              appClickLogger="Email field for registration">
             
             <!-- Icono de validación -->
             <div *ngIf="emailValid()" class="validation-icon valid">
@@ -102,7 +102,7 @@
         <!-- Campo Contraseña -->
         <div class="form-group">
           <label for="password" class="form-label">
-            Contraseña
+            Password
           </label>
           <div class="relative">
             <input
@@ -145,7 +145,7 @@
           <!-- Indicador de fortaleza de contraseña -->
           <div *ngIf="password?.value && password?.touched" class="mt-2">
             <div class="flex justify-between text-xs mb-1">
-              <span>Fortaleza de la contraseña:</span>
+              <span>Password strength:</span>
               <span [class]="getPasswordStrength().color.replace('bg-', 'text-') + ' font-medium'">
                 {{ getPasswordStrength().strength }}
               </span>
@@ -162,13 +162,13 @@
           <!-- Mensajes de error -->
           <div [class.show]="passwordInvalid()" class="error-messages mt-1">
             <div *ngIf="password?.errors?.['required'] && password?.touched" class="error-message text-sm p-2 rounded-md">
-              La contraseña es requerida
+              Password is required
             </div>
             <div *ngIf="password?.errors?.['minlength'] && password?.touched" class="error-message text-sm p-2 rounded-md">
-              Mínimo 8 caracteres
+              Minimum 8 characters
             </div>
             <div *ngIf="password?.errors?.['pattern'] && password?.touched" class="error-message text-sm p-2 rounded-md">
-              Debe contener mayúsculas, minúsculas, números y símbolos
+              It must contain uppercase letters, lowercase letters, numbers, and symbols
             </div>
           </div>
         </div>
@@ -176,7 +176,7 @@
         <!-- Campo Confirmar Contraseña -->
         <div class="form-group">
           <label for="confirmPassword" class="form-label">
-            Confirmar Contraseña
+            Confirm Password
           </label>
           <div class="relative">
             <input
@@ -185,8 +185,8 @@
               [type]="showConfirmPassword() ? 'text' : 'password'"
               formControlName="confirmPassword"
               [class]="getInputClasses(confirmPassword)"
-              placeholder="Repite tu contraseña"
-              appClickLogger="Campo confirmar password">
+              placeholder="Repeat your password"
+              appClickLogger="Confirm password field">
             
             <!-- Botón para mostrar/ocultar contraseña -->
             <button
@@ -219,10 +219,10 @@
           <!-- Mensajes de error -->
           <div [class.show]="confirmPasswordInvalid()" class="error-messages mt-1">
             <div *ngIf="confirmPassword?.errors?.['required'] && confirmPassword?.touched" class="error-message text-sm p-2 rounded-md">
-              Confirma tu contraseña
+              Confirm your password
             </div>
             <div *ngIf="confirmPassword?.errors?.['passwordMismatch'] && confirmPassword?.touched" class="error-message text-sm p-2 rounded-md">
-              Las contraseñas no coinciden
+              The passwords do not match
             </div>
           </div>
         </div>
@@ -238,10 +238,10 @@
               class="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500 transition-colors"
               appClickLogger="Checkbox términos">
             <label for="agreeToTerms" class="text-sm text-gray-700 leading-tight">
-              Acepto los 
-              <a href="#" class="text-primary-600 hover:text-primary-700 underline transition-colors">Términos de Servicio</a> 
-              y la 
-              <a href="#" class="text-primary-600 hover:text-primary-700 underline transition-colors">Política de Privacidad</a>
+              I accept the 
+              <a href="#" class="text-primary-600 hover:text-primary-700 underline transition-colors">Terms of Service</a> 
+              and the 
+              <a href="#" class="text-primary-600 hover:text-primary-700 underline transition-colors">Privacy Policy</a>
             </label>
           </div>
           
@@ -258,12 +258,12 @@
           [class.loading]="loading()"
           class="submit-button w-full flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
           appClickLogger="Botón registro">
-          <span *ngIf="!loading()">Crear Cuenta</span>
-          <span *ngIf="loading()" class="invisible">Crear Cuenta</span>
+          <span *ngIf="!loading()">Create Account</span>
+          <span *ngIf="loading()" class="invisible">Create Account</span>
         </button>
 
         <!-- Separador -->
-        <div class="separator text-sm text-gray-500">o regístrate con</div>
+        <div class="separator text-sm text-gray-500">or register with</div>
 
         <!-- Botones de redes sociales -->
         <div class="social-buttons">
@@ -288,13 +288,13 @@
         <!-- Enlace de login -->
         <div class="text-center pt-4">
           <p class="text-gray-600">
-            ¿Ya tienes cuenta?
+            ¿You already have an account?
             <button 
               type="button"
               (click)="goToLogin()"
               class="login-link font-medium text-primary-600 hover:text-primary-700 transition-colors"
               appClickLogger="Enlace login">
-              Inicia sesión aquí
+              Login here
             </button>
           </p>
         </div>

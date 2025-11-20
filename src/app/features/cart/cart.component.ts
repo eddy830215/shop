@@ -57,7 +57,7 @@ export class CartComponent {
   
     // Verificación simplificada y consistente
     if (!this.isAuthenticated()) {
-      this.notificationService.warning('You must log in to continue with your purchase');
+      this.notificationService.warning('You must login to continue with your purchase');
       
       // Guardar la intención de checkout
       localStorage.setItem('redirectAfterLogin', '/checkout');

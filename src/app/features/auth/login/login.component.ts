@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   isLoading = false;
+  showPassword = signal(false);
   errorMessage = '';
 
   constructor(
@@ -24,7 +25,10 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-
+  // Métodos para mostrar/ocultar contraseña
+  togglePasswordVisibility() {
+    this.showPassword.update(show => !show);
+  }
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
