@@ -1,81 +1,103 @@
-<div class="login-container">
-  <div class="login-card">
-    <div class="login-header">
-      <div class="login-logo">
-       <div class="logo-circle mx-auto flex justify-center items-center">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-       </div>
-      </div>
-      <h3 class="login-title">Login</h3>
-    </div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">User</label>
-        <input
-          type="text"
-          id="username"
-          formControlName="username"
-          class="form-control"
-          placeholder="Enter your user"
-          [class.is-invalid]="username?.invalid && username?.touched"
-        >
-        <div class="invalid-feedback" *ngIf="username?.invalid && username?.touched">
-          The user is required
-        </div>
-      </div>
+<div class="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 relative overflow-hidden">
+  <!-- Fondo animado -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:50px_50px] animate-float"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
+  </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="relative"> <!-- Contenedor relativo para el input y el botón -->
-          <input
-            [type]="showPassword() ? 'text' : 'password'"
-            id="password"
-            formControlName="password"
-            class="form-control"
-            placeholder="Enter your password"
-            [class.is-invalid]="password?.invalid && password?.touched"
-          >
-          <button type="button" (click)="togglePasswordVisibility()"
-            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors p-2 focus:outline-none"
-            appClickLogger="Toggle visibilidad password">
-            <svg *ngIf="showPassword()" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+  <div class="relative z-10 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white/95 backdrop-blur-md border border-white/20 rounded-2xl p-10 w-full max-w-md shadow-2xl shadow-black/10 hover:shadow-3xl hover:shadow-black/15 hover:-translate-y-1 transition-all duration-300 animate-slide-up">
+      <div class="text-center mb-8">
+        <div class="mb-6 flex justify-center">
+          <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/30 relative">
+            <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full opacity-40 blur-sm -z-10"></div>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white">
+              <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <svg *ngIf="!showPassword()" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-          </button>
-        </div>
-        <div class="invalid-feedback" *ngIf="password?.invalid && password?.touched">
-          <div *ngIf="password?.errors?.['required']">Password is required</div>
-          <div *ngIf="password?.errors?.['minlength']">
-            The password must be at least 6 characters long
           </div>
         </div>
+        <h3 class="text-3xl font-bold bg-gradient-to-br from-indigo-500 to-purple-600 bg-clip-text text-transparent mb-2">Login</h3>
+        <p class="text-gray-600 text-sm">Welcome back to your account</p>
       </div>
 
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-6 relative">
+          <label for="username" class="block text-sm font-semibold text-gray-700 mb-2 transition-colors">User</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 focus:outline-none focus:-translate-y-0.5 placeholder:text-gray-400"
+            placeholder="Enter your user"
+            [class.border-red-500]="username?.invalid && username?.touched"
+            [class.border-green-500]="username?.valid && username?.touched"
+          >
+          <div class="text-red-500 text-xs mt-1" *ngIf="username?.invalid && username?.touched">
+            The user is required
+          </div>
+        </div>
+
+        <div class="mb-6 relative">
+          <label for="password" class="block text-sm font-semibold text-gray-700 mb-2 transition-colors">Password</label>
+          <div class="relative">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 focus:outline-none focus:-translate-y-0.5 placeholder:text-gray-400 pr-12"
+              placeholder="Enter your password"
+              [class.border-red-500]="password?.invalid && password?.touched"
+              [class.border-green-500]="password?.valid && password?.touched"
+            >
+            <button 
+              type="button" 
+              (click)="togglePasswordVisibility()"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors p-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 rounded-lg"
+              appClickLogger="Toggle visibilidad password"
+            >
+              <svg *ngIf="showPassword()" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+              <svg *ngIf="!showPassword()" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+          <div class="text-red-500 text-xs mt-1" *ngIf="password?.invalid && password?.touched">
+            <div *ngIf="password?.errors?.['required']">Password is required</div>
+            <div *ngIf="password?.errors?.['minlength']">
+              The password must be at least 6 characters long
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="animate-shake bg-gradient-to-br from-red-100 to-red-200 border-l-4 border-red-500 text-red-700 p-3 rounded-lg mb-4 text-sm">
+          ⚠ {{ errorMessage }}
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold text-base transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/40 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-indigo-200 relative overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          <span *ngIf="!isLoading" class="relative z-10">Login</span>
+          <span *ngIf="isLoading" class="relative z-10">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Loading...
+          </span>
+        </button>
+      </form>
+
+      <div class="text-center mt-6 text-gray-600 text-sm">
+        <p>¿You don't have an account? <a routerLink="/auth/register" class="text-indigo-500 font-semibold hover:text-indigo-600 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-current after:transition-all after:duration-300 hover:after:w-full">Register</a></p>
       </div>
-
-      <button
-        type="submit"
-        class="btn btn-primary btn-block"
-        [disabled]="loginForm.invalid || isLoading"
-      >
-        <span *ngIf="!isLoading">Login</span>
-        <span *ngIf="isLoading">Loading...</span>
-      </button>
-    </form>
-
-    <div class="register-link">
-      <p>¿You don't have an account? <a routerLink="/auth/register">Register</a></p>
     </div>
   </div>
 </div>

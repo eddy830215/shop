@@ -1,51 +1,70 @@
 <!-- Toolbar Fijo -->
-<div class="toolbar" role="banner">
+<div class="flex items-center px-3 sm:px-4 md:px-6 py-2 sm:py-3 fixed top-0 left-0 right-0 z-50 h-14 sm:h-16 bg-gradient-to-br from-[#6e8efb] to-[#a777e3] text-white shadow-lg" role="banner">
+  <!-- Logo -->
   <img 
-    width="40" 
+    width="32" 
+    height="32"
     alt="Logo Tienda Eddy" 
     src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xOCw2SDE2VjVBMzMsMywwLDAsMCwxMywySDExQTMsMywwLDAsMCw4LDVWNkg2QTIuMDYsMi4wNiwwLDAsMCw0LDhWMjBhMi4wNiwyLjA2LDAsMCwwLDIsMkgxOGEyLjA2LDIuMDYsMCwwLDAsMi0yVjhBMi4wNiwyLjA2LDAsMCwwLDE4LDZNMTAsNWEzLDMsMCwwLDAsNiwwWk0xOCwyMEg2VjhIMThaIi8+PC9zdmc+"
+    class="mr-2 sm:mr-3 md:mr-4 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
   />
-  <span class="welcome-text">Welcome to Eddy's online store</span>
   
-  <div class="spacer"></div>
+  <!-- Texto de bienvenida - Responsive -->
+  <span class="hidden sm:block text-lg md:text-xl font-semibold tracking-wide text-shadow">
+    Welcome to Eddy's online store
+  </span>
+  
+  <!-- Texto abreviado para móviles -->
+  <span class="sm:hidden text-lg font-semibold tracking-wide text-shadow">
+    Eddy's Store
+  </span>
+  
+  <div class="flex-1"></div>
 
-  <!-- User greeting -->
-  <div *ngIf="isAuthenticated && username" class="user-greeting mr-4">
+  <!-- User greeting - Responsive -->
+  <div *ngIf="isAuthenticated && username" class="hidden sm:block text-sm md:text-base font-medium tracking-wide text-shadow-md mr-3 md:mr-4">
     Hello, {{ username }}!
   </div>
+  <div *ngIf="isAuthenticated && username" class="sm:hidden text-xs font-medium tracking-wide text-shadow-md mr-2">
+    Hi, {{ username }}
+  </div>
   
-  <!-- Cart icon -->
+  <!-- Cart icon - Responsive -->
   <button 
     (click)="goToCart()" 
-    class="cart-button"
+    class="relative group bg-white bg-opacity-15 border border-white border-opacity-20 text-white p-1.5 sm:p-2 rounded-full cursor-pointer transition-all duration-300 mr-2 sm:mr-3 md:mr-4 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:bg-white hover:bg-opacity-25 hover:-translate-y-0.5 hover:shadow-lg active:scale-95"
     [attr.aria-label]="'Shopping cart with ' + cartCount() + ' items'">
     
-    <div class="cart-icon-container transition-all duration-150 active:scale-95">
+    <div class="cart-icon-container transition-all duration-150">
       <img 
         src="assets/shopping-cart-icon.png" 
         alt="Shopping cart"
-        class="cart-icon-image"
+        class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:scale-110 group-hover:translate-y-px"
         onerror="this.style.display='none'">
     </div>
     
-    <div *ngIf="cartCount() > 0" class="cart-badge">
+    <!-- Cart badge - Responsive -->
+    <div *ngIf="cartCount() > 0" 
+         [class]="'absolute -top-1 -right-1 bg-[#ff4757] text-white rounded-full flex items-center justify-center font-bold border border-[#6e8efb] shadow-sm animate-pulse-custom ' + 
+                  (cartCount() > 99 ? 'text-[0.5rem] w-4 h-4' : 'text-[0.6rem] sm:text-xs w-4 h-4 sm:w-5 sm:h-5')">
       {{ cartCount() > 99 ? '99+' : cartCount() }}
     </div>
 
-    <div class="cart-tooltip">
+    <!-- Tooltip - Solo en desktop -->
+    <div class="hidden md:block absolute top-full right-0 mt-2 bg-black bg-opacity-80 text-white px-3 py-1.5 rounded text-sm whitespace-nowrap opacity-0 -translate-y-2 transition-all duration-300 pointer-events-none z-50 group-hover:opacity-100 group-hover:translate-y-0">
       View cart ({{ cartCount() }} items)
     </div>
   </button>
 
-  <!-- Logout button -->
+  <!-- Logout button - Responsive -->
   <button *ngIf="isAuthenticated" 
           (click)="logout()" 
-          class="logout-btn ml-4">
-          Logout
+          class="bg-white bg-opacity-20 border border-white border-opacity-30 text-white px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 rounded-full cursor-pointer transition-all duration-300 font-medium tracking-wide shadow hover:bg-white hover:bg-opacity-30 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 text-xs sm:text-sm md:text-base whitespace-nowrap">
+    Logout
   </button>
 </div>
 
-<!-- Main Content con margen superior -->
-<div class="content" role="main">
+<!-- Main Content con margen superior responsive -->
+<div class="mt-14 sm:mt-16 min-h-screen bg-gray-100 bg-transparent" role="main">
   <router-outlet></router-outlet>
 </div>

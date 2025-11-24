@@ -1,33 +1,103 @@
-<!-- notification.component.html -->
-<div class="notifications-container">
-  <div 
-    *ngFor="let notification of notifications()" 
-    class="notification"
-    [class.notification-success]="notification.type === 'success'"
-    [class.notification-error]="notification.type === 'error'"
-    [class.notification-warning]="notification.type === 'warning'"
-    [class.notification-info]="notification.type === 'info'"
-    (click)="removeNotification(notification.id)">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones - Tienda Eddy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
     
-    <div class="notification-content">
-      <div class="notification-icon">
-        <span *ngIf="notification.type === 'success'">✓</span>
-        <span *ngIf="notification.type === 'error'">✕</span>
-        <span *ngIf="notification.type === 'warning'">⚠</span>
-        <span *ngIf="notification.type === 'info'">ℹ</span>
-      </div>
+    @keyframes slideOutRight {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+    
+    .notification-enter {
+      animation: slideInRight 0.3s ease-out forwards;
+    }
+    
+    .notification-exit {
+      animation: slideOutRight 0.3s ease-in forwards;
+    }
+    
+    .notifications-container {
+      position: fixed;
+      top: 80px;
+      right: 16px;
+      z-index: 1000;
+      max-width: 400px;
+      width: calc(100vw - 32px);
+    }
+    
+    @media (min-width: 640px) {
+      .notifications-container {
+        width: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- notification.component.html -->
+  <div class="notifications-container">
+    <div 
+      *ngFor="let notification of notifications()" 
+      class="notification mb-3 transform transition-all duration-300 ease-in-out notification-enter"
+      [class]="
+        notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-800 shadow-green-100' :
+        notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-800 shadow-red-100' :
+        notification.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800 shadow-yellow-100' :
+        'bg-blue-50 border-blue-200 text-blue-800 shadow-blue-100'
+      "
+      (click)="removeNotification(notification.id)">
       
-      <div class="notification-text">
-        <div class="notification-title">{{ notification.title }}</div>
-        <div class="notification-message">{{ notification.message }}</div>
+      <div class="notification-content flex items-start p-3 sm:p-4 rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer active:scale-95">
+        <div class="notification-icon flex-shrink-0 mt-0.5 mr-3 sm:mr-4">
+          <div [class]="
+            notification.type === 'success' ? 'w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold' :
+            notification.type === 'error' ? 'w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold' :
+            notification.type === 'warning' ? 'w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm font-bold' :
+            'w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold'
+          ">
+            <span *ngIf="notification.type === 'success'" class="text-xs">✓</span>
+            <span *ngIf="notification.type === 'error'" class="text-xs">✕</span>
+            <span *ngIf="notification.type === 'warning'" class="text-xs">⚠</span>
+            <span *ngIf="notification.type === 'info'" class="text-xs">ℹ</span>
+          </div>
+        </div>
+        
+        <div class="notification-text flex-1 min-w-0">
+          <div class="notification-title font-semibold text-sm sm:text-base mb-1 leading-tight">
+            {{ notification.title }}
+          </div>
+          <div class="notification-message text-xs sm:text-sm opacity-90 leading-relaxed">
+            {{ notification.message }}
+          </div>
+        </div>
+        
+        <button 
+          class="close-button flex-shrink-0 ml-2 sm:ml-3 w-5 h-5 rounded-full hover:bg-black hover:bg-opacity-10 flex items-center justify-center transition-colors duration-150 text-lg font-light active:scale-95"
+          (click)="removeNotification(notification.id); $event.stopPropagation()"
+          aria-label="Close notification">
+          &times;
+        </button>
       </div>
-      
-      <button 
-        class="close-button" 
-        (click)="removeNotification(notification.id); $event.stopPropagation()"
-        aria-label="Close notification">
-        &times;
-      </button>
     </div>
   </div>
-</div>
+</body>
+</html>

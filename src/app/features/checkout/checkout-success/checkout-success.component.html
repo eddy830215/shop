@@ -1,72 +1,119 @@
-<div class="container mx-auto px-4 py-16">
-  <div class="max-w-2xl mx-auto text-center">
-    <!-- Icon of success -->
-    <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
-      <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-      </svg>
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - Tienda Eddy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn-primary {
+      @apply bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-700 transition-all duration-150 active:scale-95 shadow-md hover:shadow-lg;
+    }
+    
+    .btn-secondary {
+      @apply bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 border border-gray-300 transition-all duration-150 active:scale-95;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .bounce-in {
+      animation: bounceIn 0.8s ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-3 sm:px-4 py-8 sm:py-12 lg:py-16">
+    <div class="max-w-2xl mx-auto text-center fade-in">
+      <!-- Icon of success -->
+      <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 bounce-in">
+        <svg class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
 
-    <!-- Success message -->
-    <h1 class="text-4xl font-bold text-gray-900 mb-4">¡Order Completed!</h1>
-    <p class="text-xl text-gray-600 mb-8">
-      Thank you for your purchase. Your order has been successfully processed.
-    </p>
+      <!-- Success message -->
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">¡Order Completed!</h1>
+      <p class="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed">
+        Thank you for your purchase. Your order has been successfully processed.
+      </p>
 
-    <!-- Additional information -->
-    <div class="bg-gray-50 rounded-lg p-6 mb-8">
-      <div class="space-y-3 text-left">
-        <div class="flex justify-between">
-          <span class="text-gray-600">Order number:</span>
-          <span class="font-semibold">#{{ orderNumber() }}</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-600">Date:</span>
-          <span class="font-semibold">{{ today() | date:'dd/MM/yyyy' }}</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-gray-600">Total:</span>
-          <span class="font-semibold text-green-600">¡Paid!</span>
+      <!-- Additional information -->
+      <div class="bg-white rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 shadow-sm border border-gray-200">
+        <div class="space-y-2 sm:space-y-3 text-left">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600 text-sm sm:text-base">Order number:</span>
+            <span class="font-semibold text-sm sm:text-base">#{{ orderNumber() }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600 text-sm sm:text-base">Date:</span>
+            <span class="font-semibold text-sm sm:text-base">{{ today() | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-600 text-sm sm:text-base">Total:</span>
+            <span class="font-semibold text-green-600 text-sm sm:text-base">¡Paid!</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Shipping information -->
-    <div class="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-200">
-      <div class="flex items-start space-x-3">
-        <svg class="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
-        <div class="text-left">
-          <p class="font-medium text-blue-800">Shipping information</p>
-          <p class="text-blue-700 mt-1">
-            You will receive a confirmation email with your order details and tracking number.
-          </p>
+      <!-- Shipping information -->
+      <div class="bg-blue-50 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 border border-blue-200">
+        <div class="flex items-start gap-2 sm:gap-3">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <div class="text-left">
+            <p class="font-medium text-blue-800 text-sm sm:text-base">Shipping information</p>
+            <p class="text-blue-700 mt-1 text-xs sm:text-sm leading-relaxed">
+              You will receive a confirmation email with your order details and tracking number.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Action buttons -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <button
-        (click)="continueShopping()"
-        class="btn-primary px-8 py-3 text-lg transition-all duration-150 active:scale-95"
-        appClickLogger="Continue shopping from success">
-        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-        Continue Shopping
-      </button>
+      <!-- Action buttons CORREGIDOS - Alineación vertical -->
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+        <button
+          (click)="continueShopping()"
+          class="btn-primary px-6 py-3 text-base sm:text-lg w-full sm:w-auto flex items-center justify-center"
+          appClickLogger="Continue shopping from success">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          Continue Shopping
+        </button>
 
-      <button
-        (click)="viewOrders()"
-        class="btn-secondary px-8 py-3 text-lg transition-all duration-150 active:scale-95"
-        appClickLogger="View orders from success">
-        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-        </svg>
-        View My Orders
-      </button>
+        <button
+          (click)="viewOrders()"
+          class="btn-secondary px-6 py-3 text-base sm:text-lg w-full sm:w-auto flex items-center justify-center"
+          appClickLogger="View orders from success">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          View My Orders
+        </button>
+      </div>
+
+      <!-- Additional helpful information -->
+      <div class="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
+        <p class="text-gray-500 text-xs sm:text-sm">
+          Need help? <a href="#" class="text-purple-600 hover:text-purple-700 font-medium transition-colors">Contact our support team</a>
+        </p>
+      </div>
     </div>
   </div>
-</div>
+</body>
+</html>

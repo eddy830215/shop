@@ -9,7 +9,6 @@ import { cartStore } from '../../../store/cart.store';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit {
   product = signal<any>(null);

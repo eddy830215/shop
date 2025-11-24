@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { authStore } from '../../store/auth.store';
+import { cartStore } from 'src/app/store/cart.store';
 
 export interface LoginResponse {
   token: string;
@@ -88,6 +89,7 @@ export class AuthService {
     localStorage.removeItem(this.userKey); // Limpiar también el usuario
     this.currentUserSubject.next(false);
     authStore.clearUser();
+    cartStore.clearCart();
     this.router.navigate(['/auth']);
   }
 

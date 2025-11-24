@@ -21,7 +21,6 @@ export function confirmPasswordValidator(controlName: string): ValidatorFn {
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -211,15 +210,15 @@ export class RegisterComponent {
 
     switch (strength) {
       case 1:
-        return { strength: 'Muy débil', color: 'bg-red-500', width: '20%' };
+        return { strength: 'Very weak', color: 'bg-red-500', width: '20%' };
       case 2:
-        return { strength: 'Débil', color: 'bg-orange-500', width: '40%' };
+        return { strength: 'Weak', color: 'bg-orange-500', width: '40%' };
       case 3:
-        return { strength: 'Media', color: 'bg-yellow-500', width: '60%' };
+        return { strength: 'Medium', color: 'bg-yellow-500', width: '60%' };
       case 4:
-        return { strength: 'Fuerte', color: 'bg-green-500', width: '80%' };
+        return { strength: 'Strong', color: 'bg-green-500', width: '80%' };
       case 5:
-        return { strength: 'Muy fuerte', color: 'bg-green-600', width: '100%' };
+        return { strength: 'Very strong', color: 'bg-green-600', width: '100%' };
       default:
         return { strength: '', color: 'bg-gray-200', width: '0%' };
     }
